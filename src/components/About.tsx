@@ -19,7 +19,7 @@ const child = {
 };
 
 const iconMap: Record<string, React.ReactNode> = {
-  strategy: (
+  marketing: (
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
       <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2" />
       <line x1="12" y1="22" x2="12" y2="15.5" />
@@ -28,14 +28,21 @@ const iconMap: Record<string, React.ReactNode> = {
   ),
   content: (
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <polygon points="23 7 16 12 23 17 23 7" />
-      <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
+      <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" />
+      <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
     </svg>
   ),
-  cert: (
+  production: (
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="8" r="7" />
-      <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" />
+      <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+      <line x1="8" y1="21" x2="16" y2="21" />
+      <line x1="12" y1="17" x2="12" y2="21" />
+    </svg>
+  ),
+  host: (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="8" r="4" />
+      <path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8" />
     </svg>
   ),
 };
@@ -46,7 +53,6 @@ export default function About() {
 
   return (
     <section id="about" className="section-padding md:section-padding-md max-w-6xl mx-auto" ref={ref}>
-      {/* Section Header */}
       <motion.div
         initial={{ opacity: 0, y: 24 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -57,7 +63,7 @@ export default function About() {
           关于我
         </p>
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight mb-4">
-          播音主持出身，扎根营销实战
+          数据洞察市场，创意引领传播
         </h2>
         <p className="text-muted max-w-xl mx-auto leading-relaxed text-sm">
           用镜头表现力与数据洞察力，为品牌讲好每一个故事
@@ -106,7 +112,7 @@ export default function About() {
           <h3 className="text-sm font-semibold tracking-[0.15em] uppercase text-muted mb-5">
             核心能力
           </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
             {skillCategories.map((category) => (
               <div key={category.title} className="card p-4 md:p-5">
                 <div className="flex items-center gap-2.5 mb-4">

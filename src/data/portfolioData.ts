@@ -14,13 +14,13 @@ export const education = {
   graduation: "2027 届",
   degree: "本科",
   description:
-    "在校期间将镜头表现力与新媒体传播理论结合，系统学习传播数据分析与跨平台内容策略。具备双语（中英）沟通与主持能力，持续关注泛娱乐产业与青年文化趋势。",
+    "主修课程：新媒体传播、播音主持实务、影视剪辑技术、传播数据分析",
 };
 
 export const skillCategories = [
   {
-    title: "核心策略能力",
-    icon: "strategy",
+    title: "营销策划与执行",
+    icon: "marketing",
     skills: [
       "整合营销策划",
       "品牌矩阵搭建",
@@ -30,25 +30,36 @@ export const skillCategories = [
     ],
   },
   {
-    title: "出镜与内容实力",
+    title: "内容策划与运营",
     icon: "content",
     skills: [
-      "双语播音主持",
-      "电商直播控场",
-      "影视剪辑技术",
       "热点文案创作",
       "短视频编导",
+      "社交媒体运营",
+      "TikTok / 抖音内容生态",
+      "数据驱动选题优化",
     ],
   },
   {
-    title: "证书与工具",
-    icon: "cert",
+    title: "剪辑 / 拍摄 / 编导",
+    icon: "production",
     skills: [
-      "大学英语四级 (CET-4)",
-      "普通话等级证书",
-      "计算机二级 (MS Office)",
-      "Excel 数据整理与分析",
-      "剪映 / Premiere 剪辑",
+      "Premiere / 剪映专业剪辑",
+      "影视拍摄与构图",
+      "短视频节奏把控",
+      "多机位切换与导播",
+      "后期调色与字幕包装",
+    ],
+  },
+  {
+    title: "出镜模特 / 带货主播 / 主持",
+    icon: "host",
+    skills: [
+      "双语播音主持",
+      "电商直播控场",
+      "镜头表现力与形体",
+      "品牌形象代言出镜",
+      "现场互动与临场应变",
     ],
   },
 ];
@@ -72,6 +83,36 @@ export interface ShowcaseVideo {
   poster?: string;
 }
 
+export interface StrategyInsight {
+  title: string;
+  strategy: string[];
+  insight: string;
+}
+
+export interface ExperienceDocument {
+  label: string;
+  name: string;
+  path: string;
+}
+
+export interface SocialHandle {
+  platform: string;
+  handle: string;
+  url: string;
+}
+
+export interface ViralVideo {
+  title: string;
+  dataLabel: string;
+  url: string;
+  cover: string;
+}
+
+export interface DashboardImage {
+  label: string;
+  src: string;
+}
+
 export interface ExperienceEntry {
   company: string;
   companySub: string;
@@ -86,6 +127,12 @@ export interface ExperienceEntry {
   highlights: CampaignHighlight[];
   accountLinks?: AccountLink[];
   showcaseVideos?: ShowcaseVideo[];
+  strategyInsight?: StrategyInsight;
+  documents?: ExperienceDocument[];
+  wechatArticle?: { label: string; url: string };
+  dashboardImages?: DashboardImage[];
+  socialHandles?: SocialHandle[];
+  viralVideos?: ViralVideo[];
 }
 
 export const experiences: ExperienceEntry[] = [
@@ -123,19 +170,13 @@ export const experiences: ExperienceEntry[] = [
     highlights: [
       { label: "抖音播放量", value: "1,851.5 万+" },
       { label: "抖音点赞", value: "68.5 万+" },
-      { label: "海外播放量", value: "近 2,000 万" },
-      { label: "海外点赞", value: "100 万+" },
+      { label: "Instagram 单条点赞超", value: "100w" },
     ],
     accountLinks: [
       {
         label: "曲奇日记",
         platform: "抖音",
         url: "https://www.douyin.com/user/self",
-      },
-      {
-        label: "海外官方号",
-        platform: "TikTok / YouTube",
-        url: "https://www.tiktok.com/@insta360",
       },
     ],
     showcaseVideos: [
@@ -146,16 +187,51 @@ export const experiences: ExperienceEntry[] = [
         src: "/videos/insta360-1.mp4",
       },
       {
-        title: "海外跨文化破圈之作",
-        playLabel: "近 2,000 万次播放",
-        likeLabel: "100 万+ 点赞",
-        src: "/videos/insta360-2.mp4",
-      },
-      {
         title: "全球品牌内容力",
         playLabel: "多平台矩阵曝光",
         likeLabel: "高互动转化",
         src: "/videos/insta360-3.mp4",
+      },
+    ],
+    dashboardImages: [
+      {
+        label: "运营后台数据实况",
+        src: "/images/insta360-dashboard.jpg",
+      },
+      {
+        label: "运营后台数据实况 II",
+        src: "/images/insta360-dashboard1.jpg",
+      },
+    ],
+    socialHandles: [
+      {
+        platform: "Instagram",
+        handle: "@maaax_lee",
+        url: "https://www.instagram.com/maaax_lee/",
+      },
+      {
+        platform: "YouTube",
+        handle: "@maaax_lee",
+        url: "https://www.youtube.com/@maaax_lee",
+      },
+      {
+        platform: "TikTok",
+        handle: "@maaax_lee",
+        url: "https://www.tiktok.com/@maaax_lee",
+      },
+    ],
+    viralVideos: [
+      {
+        title: "Instagram 爆款",
+        dataLabel: "🔥 Instagram 点赞超 100 万现象级爆款",
+        url: "https://www.instagram.com/p/DW0_9TXCaWu/",
+        cover: "/images/ins-cover.jpg",
+      },
+      {
+        title: "YouTube Shorts",
+        dataLabel: "🚀 YouTube Shorts 核心高流作品",
+        url: "https://www.youtube.com/shorts/BixQ-7XgsKg",
+        cover: "/images/yt-cover.jpg",
       },
     ],
   },
@@ -194,6 +270,32 @@ export const experiences: ExperienceEntry[] = [
       { label: "单日互动人流", value: "2,000+" },
       { label: "办卡转化率提升", value: "~40%" },
     ],
+    documents: [
+      {
+        label: "「你好，新同学」策划案",
+        name: "校园营销方案",
+        path: "/docs/mango-campus.pdf",
+      },
+      {
+        label: "「无限X演唱会」策划案",
+        name: "演唱会预热方案",
+        path: "/docs/mango-concert.pdf",
+      },
+    ],
+    wechatArticle: {
+      label: "微信公众号复盘推文",
+      url: "https://mp.weixin.qq.com/",
+    },
+    strategyInsight: {
+      title: "「你好，新同学」整合营销战役",
+      strategy: [
+        "多IP联动矩阵：联动《歌手2025》《我们的宿舍》等顶级IP形成内容合力",
+        "跨平台分发：微博话题 + 短视频切片 + 线下快闪三方共振",
+        "热点借势：围绕开学季情绪共鸣，策划UGC互动话题",
+      ],
+      insight:
+        "核心逻辑：「IP矩阵 × 话题共振 × 线下体验」三层漏斗。用顶级IP内容在微博造势引流，用短视频切片在抖音/小红书做二次分发，用线下快闪创造高转化场景。",
+    },
   },
   {
     company: "国际电商",
@@ -251,73 +353,6 @@ export const experiences: ExperienceEntry[] = [
       { label: "场均 GMV", value: "5 万元+" },
       { label: "场均直播时长", value: "4 小时" },
     ],
-  },
-];
-
-export interface CampaignCase {
-  id: string;
-  tag: string;
-  title: string;
-  subtitle: string;
-  strategy: string[];
-  kpi: { label: string; value: string }[];
-  insight: string;
-}
-
-export const campaignCases: CampaignCase[] = [
-  {
-    id: "mango",
-    tag: "芒果TV 多IP联动",
-    title: "「你好，新同学」整合营销战役",
-    subtitle: "芒果TV · 动感地带芒果卡项目",
-    strategy: [
-      "多IP联动矩阵：联动《歌手2025》《我们的宿舍》等顶级IP形成内容合力",
-      "跨平台分发：微博话题 + 短视频切片 + 线下快闪三方共振",
-      "热点借势：围绕开学季情绪共鸣，策划UGC互动话题",
-    ],
-    kpi: [
-      { label: "微博话题阅读", value: "26.5 亿+" },
-      { label: "话题讨论量", value: "559.4 万+" },
-      { label: "单日人流", value: "2,000+" },
-    ],
-    insight:
-      "核心逻辑：「IP矩阵 × 话题共振 × 线下体验」三层漏斗。用顶级IP内容在微博造势引流，用短视频切片在抖音/小红书做二次分发，用线下快闪创造高转化场景。",
-  },
-  {
-    id: "ai-exhibition",
-    tag: "线下AI互动展",
-    title: "「六朝古都」城市策展",
-    subtitle: "无限X演唱会预热 · 现象级线下体验",
-    strategy: [
-      "文旅+科技融合：将「六朝古都」历史与AI技术结合打造沉浸体验",
-      "可交互装置：「文物AI互动」让用户通过手机与历史文物对话，「可交互诗词长廊」打造视觉打卡点",
-      "社交裂变设计：每个装置天然具备打卡分享属性，引导UGC传播",
-    ],
-    kpi: [
-      { label: "社交媒体曝光", value: "千万级" },
-      { label: "到场参与人次", value: "万人级" },
-      { label: "活动类型", value: "现象级城市事件" },
-    ],
-    insight:
-      "核心逻辑：用「科技 × 文化」反差感制造话题。当千年文物遇上AI交互，天然具备传播基因。策展的关键在于让每个展项都成为「可拍照的内容」，让参与者成为品牌的二次传播节点。",
-  },
-  {
-    id: "flash-mob",
-    tag: "明星快闪办卡",
-    title: "小红书开学博览会快闪",
-    subtitle: "中大站 · 特邀嘉宾张雅琪互动",
-    strategy: [
-      "明星效应引流：特邀嘉宾张雅琪到场互动，快速聚集目标人群",
-      "场景化体验设计：围绕「开学季」打造沉浸式体验，降低用户决策门槛",
-      "即时转化链路：现场体验 → 即时办卡 → 社交分享，三步完成转化闭环",
-    ],
-    kpi: [
-      { label: "单日人流", value: "2,000+" },
-      { label: "办卡转化提升", value: "~40%" },
-      { label: "特邀嘉宾", value: "张雅琪" },
-    ],
-    insight:
-      "核心逻辑：「明星势能 × 场景体验 × 即时转化」。线下快闪的核心不是曝光量，而是转化效率。通过场景设计和明星互动降低用户心理防御，在情绪高点完成转化动作——这才是线下体验的护城河。",
   },
 ];
 
