@@ -127,6 +127,13 @@ export interface ExperienceEntry {
   viralVideos?: ViralVideo[];
   xhsSection?: XhsSection;
   externalLinks?: ExternalLink[];
+  documents?: ExperienceDocument[];
+}
+
+export interface ExperienceDocument {
+  label: string;
+  name: string;
+  path: string;
 }
 
 export const experiences: ExperienceEntry[] = [
@@ -188,7 +195,7 @@ export const experiences: ExperienceEntry[] = [
         src: "/videos/insta360-1.mp4",
       },
       {
-        title: "影石爆款",
+        title: "「曲奇日记」爆款视频",
         playLabel: "观看数：1859万+",
         likeLabel: "点赞量：67.2万，评论量：8104",
         src: "/videos/insta360-3.mp4",
@@ -295,6 +302,18 @@ export const experiences: ExperienceEntry[] = [
       {
         label: "两周年庆祝视频微博直达",
         url: "https://weibo.com/5333331234/5189326126189443",
+      },
+    ],
+    documents: [
+      {
+        label: "「你好，新同学」动感地带芒果卡 · 完整策划案",
+        name: "校园营销方案",
+        path: "/docs/mango-campus.pdf",
+      },
+      {
+        label: "「无限X演唱会」预热策划 · 完整方案",
+        name: "演唱会预热方案",
+        path: "/docs/mango-concert.pdf",
       },
     ],
   },
