@@ -22,7 +22,7 @@ export default function Hero() {
       style={{ opacity: scrollOpacity }}
     >
       <img
-        src="/images/hero-bg.png"
+        src="/images/new-hero-bg.jpg"
         alt="张且 Ivy"
         className="absolute inset-0 w-full h-full object-cover object-center"
       />
