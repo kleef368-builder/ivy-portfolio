@@ -73,9 +73,7 @@ export default function Hero() {
           variants={item}
           className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-[1.15] mb-4 md:mb-6 text-foreground"
         >
-          数据洞察市场，{" "}
-          <br className="md:hidden" />
-          <span className="text-accent">创意</span>引领传播
+          hi，我是张且。
         </motion.h1>
 
         <motion.p

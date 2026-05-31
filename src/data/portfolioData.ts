@@ -1,9 +1,8 @@
 export const siteConfig = {
   name: "张且",
   nameEn: "Ivy Zhang",
-  email: "ivyzhang@example.com",
   headline:
-    "数据洞察市场，创意引领传播。我是张且 (Ivy)，一名具备双语传播力的整合营销策略操盘手。",
+    "hi，我是张且。",
   bio: "毕业于广东外语外贸大学南国商学院双语播音与主持艺术专业。我将独特的镜头表现力与硬核的新媒体传播、传播数据分析能力相结合。擅长从 0 到 1 搭建跨平台传播矩阵、策划现象级线下快闪事件，拥有顶级泛娱乐大厂与国际电商的实战操盘经验，致力于为品牌创造具有Z世代共鸣的整合营销方案。",
   tagline: "品牌市场 · 整合营销 · 泛娱乐公关",
 };
@@ -81,18 +80,7 @@ export interface ShowcaseVideo {
   likeLabel: string;
   src: string;
   poster?: string;
-}
-
-export interface StrategyInsight {
-  title: string;
-  strategy: string[];
-  insight: string;
-}
-
-export interface ExperienceDocument {
-  label: string;
-  name: string;
-  path: string;
+  douyinLink?: { label: string; url: string };
 }
 
 export interface SocialHandle {
@@ -108,9 +96,16 @@ export interface ViralVideo {
   cover: string;
 }
 
-export interface DashboardImage {
+export interface ExternalLink {
   label: string;
-  src: string;
+  url: string;
+  note?: string;
+}
+
+export interface XhsSection {
+  label: string;
+  url: string;
+  video: ShowcaseVideo;
 }
 
 export interface ExperienceEntry {
@@ -127,12 +122,11 @@ export interface ExperienceEntry {
   highlights: CampaignHighlight[];
   accountLinks?: AccountLink[];
   showcaseVideos?: ShowcaseVideo[];
-  strategyInsight?: StrategyInsight;
-  documents?: ExperienceDocument[];
-  wechatArticle?: { label: string; url: string };
-  dashboardImages?: DashboardImage[];
+  showcaseTitle?: string;
   socialHandles?: SocialHandle[];
   viralVideos?: ViralVideo[];
+  xhsSection?: XhsSection;
+  externalLinks?: ExternalLink[];
 }
 
 export const experiences: ExperienceEntry[] = [
@@ -145,30 +139,36 @@ export const experiences: ExperienceEntry[] = [
     logo: "IS",
     sections: [
       {
-        title: "全球双端爆款操盘",
+        title: "多平台0-1冷启动",
         bullets: [
-          "负责国内抖音及海外多平台账号 0-1 冷启动孵化",
-          "精准洞察国内外用户偏好差异，制定全球化差异化选题策略",
-          "于国内抖音打造现象级爆款，「曲奇日记」账号粉丝快速突破 4,000+",
+          "独立负责抖音、小红书、TikTok、YouTube、Ins 五大平台账号",
+          "从内容策划、拍摄剪辑到发布运营全流程主导",
         ],
       },
       {
-        title: "官方主流媒体认证",
+        title: "爆款成绩",
         bullets: [
-          "优质原创内容凭借极高的社会价值与创意深度获得权威认可",
-          "被「学习强国」等国家级官方主流媒体转载与专题报道",
+          "抖音总播放量 1957.4万+",
+          "单条爆款视频于4月登上「影石产品看后搜」全网第一名，直接带动销售额",
+          "Ins 单条视频点赞超 100万",
         ],
       },
       {
-        title: "海外多跨度破圈",
+        title: "官方认可",
         bullets: [
-          "海外多平台运营表现优异，验证跨文化 Z 世代青年传播模型",
-          "成功跨越地域与文化壁垒，实现真正意义上的全球化内容破圈",
+          "视频被「学习强国」等国家级媒体转载报道",
+        ],
+      },
+      {
+        title: "全链路制作能力",
+        bullets: [
+          "所有作品均由本人独立完成创意构思、脚本撰写、出镜拍摄、后期剪辑",
+          "具备全链路内容制作能力",
         ],
       },
     ],
     highlights: [
-      { label: "抖音播放量", value: "1,851.5 万+" },
+      { label: "抖音总播放量", value: "1,957.4万+" },
       { label: "抖音点赞", value: "68.5 万+" },
       { label: "Instagram 单条点赞超", value: "100w" },
     ],
@@ -179,30 +179,35 @@ export const experiences: ExperienceEntry[] = [
         url: "https://www.douyin.com/user/self",
       },
     ],
+    showcaseTitle: "账号运营 / Social Media Operations",
     showcaseVideos: [
       {
-        title: "曲奇日记 · 现象级爆款",
-        playLabel: "1,851.5 万次播放",
-        likeLabel: "68.5 万点赞",
+        title: "曲奇日记",
+        playLabel: "播放量：36.2万",
+        likeLabel: "点赞量：2900",
         src: "/videos/insta360-1.mp4",
       },
       {
-        title: "全球品牌内容力",
-        playLabel: "多平台矩阵曝光",
-        likeLabel: "高互动转化",
+        title: "影石爆款",
+        playLabel: "观看数：1859万+",
+        likeLabel: "点赞量：67.2万，评论量：8104",
         src: "/videos/insta360-3.mp4",
+        douyinLink: {
+          label: "长按复制此条消息，打开抖音搜索，查看TA的更多作品。",
+          url: "https://v.douyin.com/a5aqxO0Qnbc/",
+        },
       },
     ],
-    dashboardImages: [
-      {
-        label: "运营后台数据实况",
-        src: "/images/insta360-dashboard.jpg",
+    xhsSection: {
+      label: "我在小红书收获了5919次赞与收藏，来看看我的主页>>",
+      url: "https://xhslink.com/m/8l7zx2v0Edl",
+      video: {
+        title: "小红书作品",
+        playLabel: "观看数：118705",
+        likeLabel: "点赞量：1587",
+        src: "/videos/intsta360-5.mp4",
       },
-      {
-        label: "运营后台数据实况 II",
-        src: "/images/insta360-dashboard1.jpg",
-      },
-    ],
+    },
     socialHandles: [
       {
         platform: "Instagram",
@@ -244,23 +249,27 @@ export const experiences: ExperienceEntry[] = [
     logo: "MG",
     sections: [
       {
-        title: "整合营销与矩阵搭建",
+        title: "1️⃣ 整合营销策划 · 多IP联动",
         bullets: [
-          "深度参与「你好，新同学」全国营销项目，搭建跨平台内容矩阵",
-          "联动《歌手2025》《我们的宿舍》等顶级IP，负责每週現场采访选题与录製跟进，产出爆款短视频",
+          '深度参与「你好，新同学」全国营销项目，协助规划"线上引流→线下激活→长尾留存"全周期传播节奏',
+          "搭建 微博 + 小红书 + 小程序 跨平台内容矩阵，实现话题阅读量 26.5亿+、讨论量 559.4万+",
+          "联动头部IP《歌手2025》《我们的宿舍》，每周策划现场采访选题并产出短视频，保障节目期持续热度",
         ],
       },
       {
-        title: "现象级城市策展",
+        title: "2️⃣ 线下事件策划 · 高转化快闪",
         bullets: [
-          "主導「无限X演唱会」预热宣传，策划「六朝古都」线下快闪",
-          "打造「文物AI互动」与「可交互诗词长廊」，引爆城市话题",
+          '为「无限X演唱会」策划预热事件：参与「六朝古都」城市策展，创意落地"文物AI互动""可交互诗词长廊"，形成现象级城市话题',
+          "策划执行 小红书开学博览会（中山大学站）快闪活动：完成主题策划→互动设计→现场执行→素材回收全流程，邀请嘉宾张雅琪到场，单日互动人流 2000+人次",
         ],
       },
       {
-        title: "线下快闪高转化",
+        title: "3️⃣ 内容运营 · 用户增长",
         bullets: [
-          "策划执行小红书开学博览会（中大站）线下快闪，特邀嘉宾张雅琪互动",
+          '独立负责「青春学长」创意宣发线：打造"学长报道"等爆款互动视频，获 1万+点赞',
+          "策划微博明星话题 #比个耶继续前行#，带动阅读量 494.9万、讨论量 5.3万+",
+          "从0搭建小红书追星向新号：单条视频点赞 5万+，1个月涨粉5000+，通过社群运营直接带动芒果卡拉新",
+          "撰写品牌宣传片脚本、艺人官宣文案、公众号推文等多体裁内容，平均互动率提升30%",
         ],
       },
     ],
@@ -268,34 +277,26 @@ export const experiences: ExperienceEntry[] = [
       { label: "微博话题阅读量", value: "26.5 亿+" },
       { label: "讨论量", value: "559.4 万+" },
       { label: "单日互动人流", value: "2,000+" },
-      { label: "办卡转化率提升", value: "~40%" },
     ],
-    documents: [
+    externalLinks: [
       {
-        label: "「你好，新同学」策划案",
-        name: "校园营销方案",
-        path: "/docs/mango-campus.pdf",
+        label: "@芒果打工记📓 小红书主页",
+        url: "https://xhslink.com/m/6hJmWth6bFf",
+        note: "* 当时是刚创建从0开始做半个月涨粉5000+，主要体现社群运营能力",
       },
       {
-        label: "「无限X演唱会」策划案",
-        name: "演唱会预热方案",
-        path: "/docs/mango-concert.pdf",
+        label: "「你好新同学」微博官方直达",
+        url: "http://s.weibo.com/weibo?q=%23%E4%BD%A0%E5%A5%BD%E6%96%B0%E5%90%8C%E5%AD%A6%E8%B6%85%E7%BA%A7%E8%BF%8E%E6%96%B0%E5%AD%A3%23",
+      },
+      {
+        label: "小红书开学博览会官方直达",
+        url: "https://www.xiaohongshu.com/page/topics/68b172330029000000000001?fullscreen=true&naviHidden=yes&themeType=default&id=68b172330029000000000001&isUnicomKing=false&page_source=note_feed.click_new_big&rn_app=1&rn_deeplink=xhsdiscover%253A%252F%252Frn%252Fads-topic%252Fpage%253FthemeType%253Ddefault%2526id%253D68b172330029000000000001%2526isUnicomKing%253Dfalse%2526page_source%253Dnote_feed.click_new_big&xhsshare=CopyLink&appuid=6813306c000000000e0134a9&apptime=1780234252&share_id=4affd4fc64f04a99a40676557588c784",
+      },
+      {
+        label: "两周年庆祝视频微博直达",
+        url: "https://weibo.com/5333331234/5189326126189443",
       },
     ],
-    wechatArticle: {
-      label: "微信公众号复盘推文",
-      url: "https://mp.weixin.qq.com/",
-    },
-    strategyInsight: {
-      title: "「你好，新同学」整合营销战役",
-      strategy: [
-        "多IP联动矩阵：联动《歌手2025》《我们的宿舍》等顶级IP形成内容合力",
-        "跨平台分发：微博话题 + 短视频切片 + 线下快闪三方共振",
-        "热点借势：围绕开学季情绪共鸣，策划UGC互动话题",
-      ],
-      insight:
-        "核心逻辑：「IP矩阵 × 话题共振 × 线下体验」三层漏斗。用顶级IP内容在微博造势引流，用短视频切片在抖音/小红书做二次分发，用线下快闪创造高转化场景。",
-    },
   },
   {
     company: "国际电商",
@@ -359,13 +360,13 @@ export const experiences: ExperienceEntry[] = [
 export const socials = [
   {
     label: "Email",
-    href: "mailto:ivyzhang@example.com",
+    href: "mailto:ivy770707@qq.com",
     icon: "email",
   },
   {
     label: "WeChat",
     href: "#",
     icon: "wechat",
-    copyText: "ivyzhang_wechat",
+    copyText: "Ivyxwy11",
   },
 ];

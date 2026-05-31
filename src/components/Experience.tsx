@@ -1,10 +1,10 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { experiences } from "@/data/portfolioData";
-import type { AccountLink, ShowcaseVideo, StrategyInsight, ExperienceDocument, SocialHandle, ViralVideo, DashboardImage } from "@/data/portfolioData";
+import type { AccountLink, ShowcaseVideo, SocialHandle, ViralVideo, ExternalLink, XhsSection } from "@/data/portfolioData";
 
 /* ========== Sub-components ========== */
 
@@ -12,13 +12,8 @@ function AccountBadges({ links, color }: { links: AccountLink[]; color: string }
   return (
     <div className="flex flex-wrap gap-2 sm:gap-2.5">
       {links.map((link) => (
-        <a
-          key={link.label}
-          href={link.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="group inline-flex items-center gap-2 px-3.5 py-2 rounded-full border border-border bg-white text-xs sm:text-sm text-muted hover:text-foreground hover:border-accent/50 hover:bg-accent-light/50 active:scale-95 transition-all duration-200"
-        >
+        <a key={link.label} href={link.url} target="_blank" rel="noopener noreferrer"
+          className="group inline-flex items-center gap-2 px-3.5 py-2 rounded-full border border-border bg-white text-xs sm:text-sm text-muted hover:text-foreground hover:border-accent/50 hover:bg-accent-light/50 active:scale-95 transition-all duration-200">
           <span className="w-2 h-2 rounded-full shrink-0" style={{ background: color }} />
           <span className="font-medium">{link.platform}</span>
           <span className="text-muted-light">·</span>
@@ -40,124 +35,42 @@ function VideoCard({ video }: { video: ShowcaseVideo; color: string }) {
   const handlePause = () => { videoRef.current?.pause(); setPlaying(false); };
 
   return (
-    <div className="relative rounded-xl overflow-hidden bg-black/5 border border-border group/video">
-      <video ref={videoRef} src={video.src} muted loop playsInline preload="metadata"
-        className="w-full aspect-[9/16] object-cover cursor-pointer" onClick={handlePause} />
-      {!playing && (
-        <button onClick={handlePlay}
-          className="absolute inset-0 flex flex-col items-center justify-center bg-black/35 hover:bg-black/25 transition-colors cursor-pointer">
-          <motion.div whileHover={{ scale: 1.08 }} whileTap={{ scale: 0.95 }}
-            className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white/95 flex items-center justify-center shadow-lg mb-4">
-            <svg className="w-6 h-6 sm:w-7 sm:h-7 text-foreground ml-1" viewBox="0 0 24 24" fill="currentColor">
-              <polygon points="5 3 19 12 5 21 5 3" />
-            </svg>
-          </motion.div>
-          <div className="flex flex-col items-center gap-1.5">
-            <span className="text-sm sm:text-base font-bold text-white tracking-wide drop-shadow-md">{video.title}</span>
-            <div className="flex items-center gap-3">
-              <span className="text-xs sm:text-sm font-semibold text-white/90 bg-white/15 backdrop-blur-sm px-2.5 py-1 rounded-full">{video.playLabel}</span>
-              <span className="text-xs sm:text-sm font-semibold text-white/90 bg-white/15 backdrop-blur-sm px-2.5 py-1 rounded-full">{video.likeLabel}</span>
-            </div>
-          </div>
-        </button>
-      )}
-      {playing && (
-        <div onClick={handlePause} className="absolute bottom-3 left-3 flex items-center gap-1.5 bg-black/40 backdrop-blur-sm rounded-full px-3 py-1.5 cursor-pointer">
-          <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-          <span className="text-xs text-white/80 font-medium">播放中</span>
-        </div>
-      )}
-    </div>
-  );
-}
-
-function StrategyPanel({ insight }: { insight: StrategyInsight }) {
-  return (
-    <div className="rounded-xl border border-accent/20 bg-accent-light/50 p-4 sm:p-5 space-y-4">
-      <p className="text-xs text-accent font-semibold tracking-wider uppercase">策略复盘 · {insight.title}</p>
-      <ul className="space-y-2">
-        {insight.strategy.map((s, j) => (
-          <li key={j} className="text-xs sm:text-sm text-muted leading-relaxed flex items-start gap-2.5">
-            <span className="text-accent text-xs mt-0.5 shrink-0 font-mono">0{j + 1}</span>
-            {s}
-          </li>
-        ))}
-      </ul>
-      <div className="border-t border-accent/10 pt-3">
-        <p className="text-xs sm:text-sm text-muted leading-relaxed italic">💡 {insight.insight}</p>
-      </div>
-    </div>
-  );
-}
-
-function DocumentViewer({ docs, color }: { docs: ExperienceDocument[]; color: string }) {
-  const [activeDoc, setActiveDoc] = useState<string | null>(null);
-  const active = docs.find((d) => d.path === activeDoc);
-
-  return (
-    <>
-      <div className="flex flex-wrap gap-2 sm:gap-2.5">
-        {docs.map((doc) => (
-          <button key={doc.path}
-            onClick={() => setActiveDoc(doc.path)}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full border border-border bg-white text-xs sm:text-sm text-muted hover:text-foreground hover:border-accent/50 hover:bg-accent-light/50 active:scale-95 transition-all duration-200 cursor-pointer">
-            <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" /><polyline points="14 2 14 8 20 8" />
-            </svg>
-            <span className="font-medium">{doc.label}</span>
-            <span className="text-muted-light hidden sm:inline">· {doc.name}</span>
-            <svg className="w-3 h-3 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M7 17L17 7M7 7h10v10" />
-            </svg>
-          </button>
-        ))}
-      </div>
-
-      <AnimatePresence>
-        {active && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
-            onClick={() => setActiveDoc(null)}
-          >
-            <motion.div
-              initial={{ scale: 0.95, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
-              transition={{ type: "spring", stiffness: 300, damping: 25 }}
-              onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-4xl h-[85vh] bg-white rounded-2xl shadow-2xl overflow-hidden"
-            >
-              <div className="flex items-center justify-between px-5 py-3 border-b border-border">
-                <span className="text-sm font-semibold truncate pr-4">{active.label}</span>
-                <button onClick={() => setActiveDoc(null)}
-                  className="shrink-0 w-8 h-8 rounded-full bg-accent-light flex items-center justify-center text-accent hover:bg-accent hover:text-white transition-colors cursor-pointer">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
-                </button>
-              </div>
-              <iframe src={active.path} className="w-full h-[calc(100%-48px)]" title={active.label} />
+    <div>
+      <div className="relative rounded-xl overflow-hidden bg-black/5 border border-border group/video">
+        <video ref={videoRef} src={video.src} muted loop playsInline preload="metadata"
+          className="w-full aspect-[9/16] object-cover cursor-pointer" onClick={handlePause} />
+        {!playing && (
+          <button onClick={handlePlay}
+            className="absolute inset-0 flex flex-col items-center justify-center bg-black/35 hover:bg-black/25 transition-colors cursor-pointer">
+            <motion.div whileHover={{ scale: 1.08 }} whileTap={{ scale: 0.95 }}
+              className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white/95 flex items-center justify-center shadow-lg mb-4">
+              <svg className="w-6 h-6 sm:w-7 sm:h-7 text-foreground ml-1" viewBox="0 0 24 24" fill="currentColor">
+                <polygon points="5 3 19 12 5 21 5 3" />
+              </svg>
             </motion.div>
-          </motion.div>
+            <div className="flex flex-col items-center gap-1.5">
+              <span className="text-sm sm:text-base font-bold text-white tracking-wide drop-shadow-md">{video.title}</span>
+              <div className="flex flex-col items-center gap-1">
+                <span className="text-xs sm:text-sm font-semibold text-white/90 bg-white/15 backdrop-blur-sm px-2.5 py-1 rounded-full">{video.playLabel}</span>
+                <span className="text-xs sm:text-sm font-semibold text-white/90 bg-white/15 backdrop-blur-sm px-2.5 py-1 rounded-full">{video.likeLabel}</span>
+              </div>
+            </div>
+          </button>
         )}
-      </AnimatePresence>
-    </>
-  );
-}
-
-function WeChatLink({ label, url, color }: { label: string; url: string; color: string }) {
-  return (
-    <a href={url} target="_blank" rel="noopener noreferrer"
-      className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full border border-accent/30 bg-accent-light/30 text-accent text-xs sm:text-sm font-medium hover:bg-accent-light hover:border-accent/50 active:scale-95 transition-all duration-200">
-      <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 01.213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 00.167-.054l1.903-1.114a.864.864 0 01.717-.098 10.16 10.16 0 002.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348z" />
-      </svg>
-      {label}
-      <svg className="w-3 h-3 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M7 17L17 7M7 7h10v10" />
-      </svg>
-    </a>
+        {playing && (
+          <div onClick={handlePause} className="absolute bottom-3 left-3 flex items-center gap-1.5 bg-black/40 backdrop-blur-sm rounded-full px-3 py-1.5 cursor-pointer">
+            <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+            <span className="text-xs text-white/80 font-medium">播放中</span>
+          </div>
+        )}
+      </div>
+      {video.douyinLink && (
+        <a href={video.douyinLink.url} target="_blank" rel="noopener noreferrer"
+          className="mt-2 block text-xs text-muted-light hover:text-accent transition-colors leading-relaxed">
+          {video.douyinLink.label} {video.douyinLink.url}
+        </a>
+      )}
+    </div>
   );
 }
 
@@ -224,14 +137,70 @@ function ViralVideoCards({ videos }: { videos: ViralVideo[] }) {
   );
 }
 
-function DashboardGallery({ images }: { images: DashboardImage[] }) {
+function ExternalLinks({ links, color }: { links: ExternalLink[]; color: string }) {
   return (
-    <div className="flex flex-col items-center gap-4">
-      {images.map((img) => (
-        <div key={img.src} className="max-w-lg w-full rounded-xl overflow-hidden border border-border shadow-md hover:shadow-lg transition-shadow duration-300">
-          <img src={img.src} alt={img.label} className="w-full h-auto" loading="lazy" />
+    <div className="flex flex-col gap-2.5">
+      {links.map((link) => (
+        <div key={link.url}>
+          <a href={link.url} target="_blank" rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full border border-border bg-white text-xs sm:text-sm text-muted hover:text-foreground hover:border-accent/50 hover:bg-accent-light/50 active:scale-95 transition-all duration-200">
+            <svg className="w-3.5 h-3.5 shrink-0 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M7 17L17 7M7 7h10v10" />
+            </svg>
+            <span className="font-medium">{link.label}</span>
+          </a>
+          {link.note && (
+            <p className="text-xs text-muted-light mt-1 ml-1">{link.note}</p>
+          )}
         </div>
       ))}
+    </div>
+  );
+}
+
+function XhsBlock({ xhs, color }: { xhs: XhsSection; color: string }) {
+  const [playing, setPlaying] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const handlePlay = () => { videoRef.current?.play(); setPlaying(true); };
+  const handlePause = () => { videoRef.current?.pause(); setPlaying(false); };
+
+  return (
+    <div className="space-y-3">
+      <a href={xhs.url} target="_blank" rel="noopener noreferrer"
+        className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full border border-border bg-white text-xs sm:text-sm text-muted hover:text-foreground hover:border-accent/50 hover:bg-accent-light/50 active:scale-95 transition-all duration-200">
+        <span className="text-sm shrink-0">📕</span>
+        <span className="font-medium">{xhs.label}</span>
+        <svg className="w-3 h-3 shrink-0 text-muted-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M7 17L17 7M7 7h10v10" />
+        </svg>
+      </a>
+      <div className="relative rounded-xl overflow-hidden bg-black/5 border border-border group/video max-w-sm">
+        <video ref={videoRef} src={xhs.video.src} muted loop playsInline preload="metadata"
+          className="w-full aspect-[9/16] object-cover cursor-pointer" onClick={handlePause} />
+        {!playing && (
+          <button onClick={handlePlay}
+            className="absolute inset-0 flex flex-col items-center justify-center bg-black/35 hover:bg-black/25 transition-colors cursor-pointer">
+            <motion.div whileHover={{ scale: 1.08 }} whileTap={{ scale: 0.95 }}
+              className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white/95 flex items-center justify-center shadow-lg mb-3">
+              <svg className="w-5 h-5 sm:w-6 sm:h-6 text-foreground ml-0.5" viewBox="0 0 24 24" fill="currentColor">
+                <polygon points="5 3 19 12 5 21 5 3" />
+              </svg>
+            </motion.div>
+            <div className="flex flex-col items-center gap-1">
+              <span className="text-sm sm:text-base font-bold text-white tracking-wide drop-shadow-md">{xhs.video.title}</span>
+              <span className="text-xs font-semibold text-white/90 bg-white/15 backdrop-blur-sm px-2 py-1 rounded-full">{xhs.video.playLabel}</span>
+              <span className="text-xs font-semibold text-white/90 bg-white/15 backdrop-blur-sm px-2 py-1 rounded-full">{xhs.video.likeLabel}</span>
+            </div>
+          </button>
+        )}
+        {playing && (
+          <div onClick={handlePause} className="absolute bottom-3 left-3 flex items-center gap-1.5 bg-black/40 backdrop-blur-sm rounded-full px-3 py-1.5 cursor-pointer">
+            <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+            <span className="text-xs text-white/80 font-medium">播放中</span>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
@@ -291,7 +260,7 @@ export default function Experience() {
 
               {/* KPI Highlights Bar */}
               <div className="mx-4 sm:mx-6 md:mx-8 mt-5 mb-5">
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3">
                   {exp.highlights.map((h) => (
                     <div key={h.label} className="rounded-lg sm:rounded-xl bg-accent-light px-3 sm:px-4 py-2.5 sm:py-3 text-center">
                       <p className="text-lg sm:text-xl md:text-2xl font-bold text-accent leading-tight">{h.value}</p>
@@ -305,7 +274,7 @@ export default function Experience() {
 
               {/* Detail Sections */}
               <div className="px-4 sm:px-6 md:px-8 py-4 md:py-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
                   {exp.sections.map((section) => (
                     <div key={section.title}>
                       <p className="text-sm font-semibold mb-3 flex items-center gap-2">
@@ -329,46 +298,28 @@ export default function Experience() {
                 </div>
               </div>
 
-              {/* Mango TV: Documents + WeChat + Strategy Insight */}
-              {(exp.documents || exp.wechatArticle || exp.strategyInsight) && (
+              {/* Mango TV: External Links */}
+              {exp.externalLinks && exp.externalLinks.length > 0 && (
                 <>
                   <div className="border-t border-border" />
-                  <div className="px-4 sm:px-6 md:px-8 py-4 md:py-6 space-y-5">
-                    {exp.documents && (
-                      <div>
-                        <p className="text-sm font-semibold mb-3 flex items-center gap-2">
-                          <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: exp.color }} />
-                          在线浏览作品集
-                        </p>
-                        <DocumentViewer docs={exp.documents} color={exp.color} />
-                      </div>
-                    )}
-
-                    {exp.wechatArticle && (
-                      <div>
-                        <p className="text-sm font-semibold mb-3 flex items-center gap-2">
-                          <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: exp.color }} />
-                          官方推文直达
-                        </p>
-                        <WeChatLink label={exp.wechatArticle.label} url={exp.wechatArticle.url} color={exp.color} />
-                      </div>
-                    )}
-
-                    {exp.strategyInsight && (
-                      <StrategyPanel insight={exp.strategyInsight} />
-                    )}
+                  <div className="px-4 sm:px-6 md:px-8 py-4 md:py-6">
+                    <p className="text-sm font-semibold mb-3 flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: exp.color }} />
+                      实证跳转 · 直达入口
+                    </p>
+                    <ExternalLinks links={exp.externalLinks} color={exp.color} />
                   </div>
                 </>
               )}
 
-              {/* Video Showcase (Insta360) */}
+              {/* Insta360: Video Showcase */}
               {exp.showcaseVideos && exp.showcaseVideos.length > 0 && (
                 <>
                   <div className="border-t border-border" />
                   <div className="px-4 sm:px-6 md:px-8 py-4 md:py-6">
                     <p className="text-sm font-semibold mb-4 flex items-center gap-2">
                       <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: exp.color }} />
-                      爆款作品微展厅
+                      {exp.showcaseTitle || "爆款作品微展厅"}
                     </p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {exp.showcaseVideos.map((v) => (
@@ -379,21 +330,21 @@ export default function Experience() {
                 </>
               )}
 
-              {/* Data Dashboard (Insta360) */}
-              {exp.dashboardImages && exp.dashboardImages.length > 0 && (
+              {/* Insta360: XHS Section */}
+              {exp.xhsSection && (
                 <>
                   <div className="border-t border-border" />
                   <div className="px-4 sm:px-6 md:px-8 py-4 md:py-6">
                     <p className="text-sm font-semibold mb-4 flex items-center gap-2">
                       <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: exp.color }} />
-                      Data Dashboard / 运营后台数据实况
+                      小红书运营
                     </p>
-                    <DashboardGallery images={exp.dashboardImages} />
+                    <XhsBlock xhs={exp.xhsSection} color={exp.color} />
                   </div>
                 </>
               )}
 
-              {/* Global Social Proof Hub (Insta360) */}
+              {/* Insta360: Global Social Proof Hub */}
               {exp.socialHandles && exp.socialHandles.length > 0 && (
                 <>
                   <div className="border-t border-border" />
