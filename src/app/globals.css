@@ -1,27 +1,33 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where(.dark, .dark *));
-
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
+  --color-accent-light: var(--accent-light);
   --color-surface: var(--surface);
+  --color-surface-hover: var(--surface-hover);
   --color-border: var(--border);
+  --color-border-light: var(--border-light);
   --color-muted: var(--muted);
+  --color-muted-light: var(--muted-light);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
 :root {
-  --background: #0a0a0a;
-  --foreground: #ededed;
-  --accent: #0070f3;
-  --accent-hover: #0051cc;
-  --surface: rgba(255, 255, 255, 0.04);
-  --border: rgba(255, 255, 255, 0.08);
-  --muted: #a1a1a1;
+  --background: #fafaf9;
+  --foreground: #1a1a19;
+  --accent: #b8975a;
+  --accent-hover: #a07d3e;
+  --accent-light: rgba(184, 151, 90, 0.08);
+  --surface: #ffffff;
+  --surface-hover: #f7f6f3;
+  --border: rgba(0, 0, 0, 0.06);
+  --border-light: rgba(0, 0, 0, 0.04);
+  --muted: #6b6b66;
+  --muted-light: #9a9a95;
 }
 
 body {
@@ -33,24 +39,68 @@ body {
 }
 
 ::selection {
-  background: rgba(0, 112, 243, 0.3);
-  color: #fff;
+  background: rgba(184, 151, 90, 0.2);
+  color: #1a1a19;
 }
 
 html {
   scroll-behavior: smooth;
 }
 
-@utility glass {
-  background: rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+@utility card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
 }
 
-@utility text-gradient {
-  background: linear-gradient(135deg, #0070f3, #00c6ff);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+@utility card-hover {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-hover:hover {
+  border-color: var(--accent);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+}
+
+@utility gold-text {
+  color: var(--accent);
+}
+
+@utility gold-bg {
+  background: var(--accent);
+}
+
+@utility gold-border {
+  border-color: var(--accent);
+}
+
+@utility scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.section-padding {
+  padding: 3.5rem 1rem;
+}
+
+@media (width >= 40rem) {
+  .section-padding {
+    padding: 5rem 1.5rem;
+  }
+}
+
+.section-padding-md {
+  padding: 4.5rem 1rem;
+}
+
+@media (width >= 40rem) {
+  .section-padding-md {
+    padding: 7rem 1.5rem;
+  }
 }

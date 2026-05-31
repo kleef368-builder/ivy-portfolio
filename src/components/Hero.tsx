@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { siteConfig } from "@/data/portfolioData";
 
 const container = {
   hidden: { opacity: 0 },
@@ -12,19 +13,24 @@ const container = {
 
 const item = {
   hidden: { opacity: 0, y: 24 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.7, ease: "easeOut" as const },
+  },
 };
 
 export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center justify-center px-6 overflow-hidden"
+      className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 overflow-hidden"
     >
+      {/* Subtle background texture */}
       <div className="absolute inset-0 -z-10">
-        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-accent/10 rounded-full blur-[120px]" />
-        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-blue-500/5 rounded-full blur-[100px]" />
-        <div className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:48px_48px]" />
+        <div className="absolute top-1/4 -left-20 w-[400px] h-[400px] bg-accent/5 rounded-full blur-[120px]" />
+        <div className="absolute bottom-1/3 right-0 w-[300px] h-[300px] bg-accent/8 rounded-full blur-[100px]" />
+        <div className="absolute inset-0 bg-[radial-gradient(#d4af3720_1px,transparent_1px)] bg-[size:64px_64px]" />
       </div>
 
       <motion.div
@@ -35,28 +41,32 @@ export default function Hero() {
       >
         <motion.p
           variants={item}
-          className="text-accent text-sm font-medium tracking-widest uppercase mb-6"
+          className="text-accent text-xs sm:text-sm font-medium tracking-[0.2em] uppercase mb-6 md:mb-8"
         >
-          Frontend Developer &amp; UI Designer
+          {siteConfig.tagline}
         </motion.p>
 
         <motion.h1
           variants={item}
-          className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight leading-[1.1] mb-6"
+          className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.15] mb-6 md:mb-8 text-foreground"
         >
-          Crafting{" "}
-          <span className="text-gradient">
-            Beautiful
-          </span>{" "}
-          Digital Experiences
+          数据洞察市场，{" "}
+          <br className="md:hidden" />
+          <span className="text-accent">创意</span>引领传播
         </motion.h1>
 
         <motion.p
           variants={item}
-          className="text-lg md:text-xl text-muted max-w-xl mx-auto mb-10 leading-relaxed"
+          className="text-sm sm:text-base md:text-lg text-muted max-w-xl mx-auto mb-3 md:mb-4 leading-relaxed"
         >
-          I design and build modern web applications with a focus on
-          performance, accessibility, and delightful user experiences.
+          我是张且 (Ivy)，一名具备双语传播力的整合营销策略操盘手。
+        </motion.p>
+
+        <motion.p
+          variants={item}
+          className="text-xs sm:text-sm md:text-base text-muted-light max-w-2xl mx-auto mb-8 md:mb-10 leading-relaxed"
+        >
+          {siteConfig.bio}
         </motion.p>
 
         <motion.div
@@ -64,10 +74,10 @@ export default function Hero() {
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
           <a
-            href="#projects"
-            className="group inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-white text-black font-medium text-sm hover:bg-white/90 transition-all duration-200 shadow-lg shadow-white/10"
+            href="#experience"
+            className="group inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-foreground text-white font-medium text-sm hover:bg-foreground/90 transition-all duration-200"
           >
-            View Projects
+            查看核心经历
             <svg
               className="w-4 h-4 group-hover:translate-x-0.5 transition-transform"
               viewBox="0 0 24 24"
@@ -81,10 +91,10 @@ export default function Hero() {
             </svg>
           </a>
           <a
-            href="#contact"
-            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full border border-white/20 text-white font-medium text-sm hover:bg-white/5 transition-all duration-200"
+            href="#simulator"
+            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full border border-accent/30 text-accent font-medium text-sm hover:bg-accent-light transition-all duration-200"
           >
-            Get in Touch
+            Campaign Simulator
           </a>
         </motion.div>
       </motion.div>
@@ -97,9 +107,9 @@ export default function Hero() {
       >
         <a
           href="#about"
-          className="flex flex-col items-center gap-2 text-muted hover:text-white transition-colors"
+          className="flex flex-col items-center gap-2 text-muted-light hover:text-accent transition-colors"
         >
-          <span className="text-xs tracking-widest uppercase">Scroll</span>
+          <span className="text-xs tracking-[0.2em] uppercase">Scroll</span>
           <motion.div
             animate={{ y: [0, 6, 0] }}
             transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }}

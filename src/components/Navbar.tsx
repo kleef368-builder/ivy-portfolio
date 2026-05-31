@@ -2,17 +2,15 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
-import { useTheme } from "./ThemeProvider";
 
 const links = [
-  { label: "About", href: "#about" },
-  { label: "Projects", href: "#projects" },
-  { label: "Experience", href: "#experience" },
-  { label: "Contact", href: "#contact" },
+  { label: "关于我", href: "#about" },
+  { label: "核心经历", href: "#experience" },
+  { label: "Campaign Simulator", href: "#simulator" },
+  { label: "联系我", href: "#contact" },
 ];
 
 export default function Navbar() {
-  const { theme, toggle } = useTheme();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -28,15 +26,14 @@ export default function Navbar() {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "glass shadow-lg shadow-black/20" : "bg-transparent"
+        scrolled
+          ? "bg-white/80 backdrop-blur-xl border-b border-border shadow-sm"
+          : "bg-transparent"
       }`}
     >
-      <nav className="mx-auto max-w-5xl flex items-center justify-between px-6 py-4">
-        <a
-          href="#hero"
-          className="text-lg font-bold tracking-tight text-white"
-        >
-          Portfolio<span className="text-accent">.</span>
+      <nav className="mx-auto max-w-6xl flex items-center justify-between px-6 py-4">
+        <a href="#hero" className="text-lg font-bold tracking-tight">
+          张且<span className="text-accent">.</span>
         </a>
 
         <div className="hidden md:flex items-center gap-8">
@@ -44,26 +41,15 @@ export default function Navbar() {
             <a
               key={link.href}
               href={link.href}
-              className="text-sm text-zinc-400 hover:text-white transition-colors duration-200"
+              className="text-sm text-muted hover:text-foreground transition-colors duration-200"
             >
               {link.label}
             </a>
           ))}
-          <button
-            onClick={toggle}
-            className="flex items-center justify-center w-9 h-9 rounded-full border border-white/10 hover:border-white/30 transition-colors cursor-pointer"
-            aria-label="Toggle theme"
-          >
-            {theme === "dark" ? (
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
-            ) : (
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-            )}
-          </button>
         </div>
 
         <button
-          className="md:hidden flex items-center gap-2 text-zinc-400 hover:text-white transition-colors cursor-pointer"
+          className="md:hidden flex items-center gap-2 text-muted hover:text-foreground transition-colors cursor-pointer"
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label="Toggle menu"
         >
@@ -91,7 +77,7 @@ export default function Navbar() {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="md:hidden glass border-t border-white/10 overflow-hidden"
+            className="md:hidden bg-white/95 backdrop-blur-xl border-t border-border overflow-hidden"
           >
             <div className="flex flex-col gap-4 px-6 py-6">
               {links.map((link) => (
@@ -99,17 +85,11 @@ export default function Navbar() {
                   key={link.href}
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
-                  className="text-sm text-zinc-400 hover:text-white transition-colors"
+                  className="text-sm text-muted hover:text-foreground transition-colors"
                 >
                   {link.label}
                 </a>
               ))}
-              <button
-                onClick={toggle}
-                className="text-sm text-zinc-400 hover:text-white transition-colors text-left cursor-pointer"
-              >
-                {theme === "dark" ? "Light Mode" : "Dark Mode"}
-              </button>
             </div>
           </motion.div>
         )}
