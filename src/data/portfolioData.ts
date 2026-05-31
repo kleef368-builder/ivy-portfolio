@@ -58,6 +58,20 @@ export interface CampaignHighlight {
   value: string;
 }
 
+export interface AccountLink {
+  label: string;
+  platform: string;
+  url: string;
+}
+
+export interface ShowcaseVideo {
+  title: string;
+  playLabel: string;
+  likeLabel: string;
+  src: string;
+  poster?: string;
+}
+
 export interface ExperienceEntry {
   company: string;
   companySub: string;
@@ -70,6 +84,8 @@ export interface ExperienceEntry {
     bullets: string[];
   }[];
   highlights: CampaignHighlight[];
+  accountLinks?: AccountLink[];
+  showcaseVideos?: ShowcaseVideo[];
 }
 
 export const experiences: ExperienceEntry[] = [
@@ -109,6 +125,38 @@ export const experiences: ExperienceEntry[] = [
       { label: "抖音点赞", value: "68.5 万+" },
       { label: "海外播放量", value: "近 2,000 万" },
       { label: "海外点赞", value: "100 万+" },
+    ],
+    accountLinks: [
+      {
+        label: "曲奇日记",
+        platform: "抖音",
+        url: "https://www.douyin.com/user/self",
+      },
+      {
+        label: "海外官方号",
+        platform: "TikTok / YouTube",
+        url: "https://www.tiktok.com/@insta360",
+      },
+    ],
+    showcaseVideos: [
+      {
+        title: "曲奇日记 · 现象级爆款",
+        playLabel: "1,851.5 万次播放",
+        likeLabel: "68.5 万点赞",
+        src: "/videos/insta360-1.mp4",
+      },
+      {
+        title: "海外跨文化破圈之作",
+        playLabel: "近 2,000 万次播放",
+        likeLabel: "100 万+ 点赞",
+        src: "/videos/insta360-2.mp4",
+      },
+      {
+        title: "全球品牌内容力",
+        playLabel: "多平台矩阵曝光",
+        likeLabel: "高互动转化",
+        src: "/videos/insta360-3.mp4",
+      },
     ],
   },
   {

@@ -2,8 +2,133 @@
 
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { experiences } from "@/data/portfolioData";
+import type { AccountLink, ShowcaseVideo } from "@/data/portfolioData";
+
+function AccountBadges({ links, color }: { links: AccountLink[]; color: string }) {
+  return (
+    <div className="flex flex-wrap gap-2 sm:gap-2.5">
+      {links.map((link) => (
+        <a
+          key={link.label}
+          href={link.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group inline-flex items-center gap-2 px-3.5 py-2 rounded-full border border-border bg-white text-xs sm:text-sm text-muted hover:text-foreground hover:border-accent/50 hover:bg-accent-light/50 active:scale-95 transition-all duration-200"
+        >
+          <span
+            className="w-2 h-2 rounded-full shrink-0"
+            style={{ background: color }}
+          />
+          <span className="font-medium">{link.platform}</span>
+          <span className="text-muted-light">·</span>
+          <span>{link.label}</span>
+          <svg
+            className="w-3 h-3 text-muted-light group-hover:text-accent transition-colors shrink-0"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M7 17L17 7M7 7h10v10" />
+          </svg>
+        </a>
+      ))}
+    </div>
+  );
+}
+
+function VideoCard({
+  video,
+  color,
+}: {
+  video: ShowcaseVideo;
+  color: string;
+}) {
+  const [playing, setPlaying] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const handlePlay = () => {
+    if (videoRef.current) {
+      videoRef.current.play();
+      setPlaying(true);
+    }
+  };
+
+  const handlePause = () => {
+    if (videoRef.current) {
+      videoRef.current.pause();
+      setPlaying(false);
+    }
+  };
+
+  return (
+    <div className="relative rounded-xl overflow-hidden bg-black/5 border border-border group/video">
+      <video
+        ref={videoRef}
+        src={video.src}
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        className="w-full aspect-[9/16] object-cover cursor-pointer"
+        onClick={handlePause}
+      />
+
+      {/* Overlay — visible when not playing */}
+      {!playing && (
+        <button
+          onClick={handlePlay}
+          className="absolute inset-0 flex flex-col items-center justify-center bg-black/35 hover:bg-black/25 transition-colors cursor-pointer group/overlay"
+        >
+          {/* Play button */}
+          <motion.div
+            whileHover={{ scale: 1.08 }}
+            whileTap={{ scale: 0.95 }}
+            className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white/95 flex items-center justify-center shadow-lg mb-4"
+          >
+            <svg
+              className="w-6 h-6 sm:w-7 sm:h-7 text-foreground ml-1"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
+              <polygon points="5 3 19 12 5 21 5 3" />
+            </svg>
+          </motion.div>
+
+          {/* Stats badges */}
+          <div className="flex flex-col items-center gap-1.5">
+            <span className="text-sm sm:text-base font-bold text-white tracking-wide drop-shadow-md">
+              {video.title}
+            </span>
+            <div className="flex items-center gap-3">
+              <span className="text-xs sm:text-sm font-semibold text-white/90 bg-white/15 backdrop-blur-sm px-2.5 py-1 rounded-full">
+                {video.playLabel}
+              </span>
+              <span className="text-xs sm:text-sm font-semibold text-white/90 bg-white/15 backdrop-blur-sm px-2.5 py-1 rounded-full">
+                {video.likeLabel}
+              </span>
+            </div>
+          </div>
+        </button>
+      )}
+
+      {/* Playing indicator */}
+      {playing && (
+        <div
+          className="absolute bottom-3 left-3 flex items-center gap-1.5 bg-black/40 backdrop-blur-sm rounded-full px-3 py-1.5 cursor-pointer"
+          onClick={handlePause}
+        >
+          <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+          <span className="text-xs text-white/80 font-medium">播放中</span>
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function Experience() {
   const ref = useRef(null);
@@ -63,6 +188,13 @@ export default function Experience() {
                 </div>
               </div>
 
+              {/* Account Badges (optional) */}
+              {exp.accountLinks && exp.accountLinks.length > 0 && (
+                <div className="px-4 sm:px-6 md:px-8 mt-4">
+                  <AccountBadges links={exp.accountLinks} color={exp.color} />
+                </div>
+              )}
+
               {/* KPI Highlights Bar */}
               <div className="mx-4 sm:mx-6 md:mx-8 mt-5 mb-5">
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
@@ -116,6 +248,27 @@ export default function Experience() {
                   ))}
                 </div>
               </div>
+
+              {/* Video Grid Showcase (optional) */}
+              {exp.showcaseVideos && exp.showcaseVideos.length > 0 && (
+                <>
+                  <div className="border-t border-border" />
+                  <div className="px-4 sm:px-6 md:px-8 py-4 md:py-6">
+                    <p className="text-sm font-semibold mb-4 flex items-center gap-2">
+                      <span
+                        className="w-1.5 h-1.5 rounded-full shrink-0"
+                        style={{ background: exp.color }}
+                      />
+                      爆款作品微展厅
+                    </p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {exp.showcaseVideos.map((v) => (
+                        <VideoCard key={v.src} video={v} color={exp.color} />
+                      ))}
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
           </motion.div>
         ))}
