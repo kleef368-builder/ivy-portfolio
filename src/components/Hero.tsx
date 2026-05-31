@@ -22,9 +22,9 @@ export default function Hero() {
       style={{ opacity: scrollOpacity }}
     >
       <img
-        src="/images/hero-bg.jpg"
+        src="/images/hero-bg.png"
         alt="张且 Ivy"
-        className="w-full h-full object-cover object-center"
+        className="absolute inset-0 w-full h-full object-cover object-center"
       />
 
       {/* Scroll indicator */}

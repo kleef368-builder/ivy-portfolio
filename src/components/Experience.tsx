@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { experiences } from "@/data/portfolioData";
@@ -205,23 +205,64 @@ function XhsBlock({ xhs, color }: { xhs: XhsSection; color: string }) {
   );
 }
 
-function InlinePdfViewer({ docs, color }: { docs: ExperienceDocument[]; color: string }) {
+function PdfModal({ docs, color }: { docs: ExperienceDocument[]; color: string }) {
+  const [activeDoc, setActiveDoc] = useState<ExperienceDocument | null>(null);
+
   return (
-    <div className="flex flex-col gap-4">
-      {docs.map((doc) => (
-        <div key={doc.path}>
-          <p className="text-sm font-semibold mb-3 flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: color }} />
-            {doc.label}
-          </p>
-          <iframe
-            src={doc.path}
-            className="w-full h-[500px] sm:h-[600px] border border-border rounded-xl shadow-sm"
-            title={doc.label}
-          />
-        </div>
-      ))}
-    </div>
+    <>
+      <div className="flex flex-wrap gap-3 sm:gap-4">
+        {docs.map((doc) => (
+          <button
+            key={doc.path}
+            onClick={() => setActiveDoc(doc)}
+            className="group flex flex-col items-start gap-1 px-5 py-4 rounded-xl border border-border-accent bg-white hover:shadow-md hover:border-accent active:scale-[0.98] transition-all duration-200 cursor-pointer text-left"
+          >
+            <div className="flex items-center gap-2">
+              <svg className="w-4 h-4 text-accent shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+              </svg>
+              <span className="text-sm font-semibold group-hover:text-accent transition-colors">{doc.label}</span>
+            </div>
+            <span className="text-xs text-muted-light ml-6">浏览完整策划案 / View PDF →</span>
+          </button>
+        ))}
+      </div>
+
+      <AnimatePresence>
+        {activeDoc && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+            onClick={() => setActiveDoc(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              transition={{ type: "spring", stiffness: 300, damping: 25 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full max-w-5xl h-[90vh] bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col"
+            >
+              <div className="flex items-center justify-between px-5 py-3 border-b border-border shrink-0">
+                <span className="text-sm font-semibold truncate pr-4">{activeDoc.label}</span>
+                <button
+                  onClick={() => setActiveDoc(null)}
+                  className="shrink-0 w-8 h-8 rounded-full bg-accent-light flex items-center justify-center text-accent hover:bg-accent hover:text-white transition-colors cursor-pointer"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                    <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+                  </svg>
+                </button>
+              </div>
+              <iframe src={activeDoc.path} className="w-full flex-1" title={activeDoc.label} />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
 
@@ -339,9 +380,9 @@ export default function Experience() {
                   <div className="px-4 sm:px-6 md:px-8 py-4 md:py-6">
                     <p className="text-sm font-semibold mb-4 flex items-center gap-2">
                       <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: exp.color }} />
-                      完整策划案 · 在线预览
+                      完整策划案 · 点击弹窗浏览
                     </p>
-                    <InlinePdfViewer docs={exp.documents} color={exp.color} />
+                    <PdfModal docs={exp.documents} color={exp.color} />
                   </div>
                 </>
               )}
