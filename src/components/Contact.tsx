@@ -63,7 +63,7 @@ export default function Contact() {
       >
         {socials.map((social) => (
           <div key={social.label}>
-            {social.copyText ? (
+            {social.copyText && social.href === "#" ? (
               <button
                 onClick={() => handleSocialClick(social)}
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-5 sm:px-6 py-3 card-hover text-muted hover:text-foreground transition-colors group cursor-pointer"
@@ -77,6 +77,16 @@ export default function Contact() {
                     : `${social.label}: ${social.copyText}`}
                 </span>
               </button>
+            ) : social.copyText ? (
+              <a
+                href={social.href}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-5 sm:px-6 py-3 card-hover text-muted hover:text-foreground transition-colors group"
+              >
+                <span className="w-9 h-9 rounded-full bg-accent-light flex items-center justify-center text-accent">
+                  {iconMap[social.icon]}
+                </span>
+                <span className="text-sm">{social.label}: {social.copyText}</span>
+              </a>
             ) : (
               <a
                 href={social.href}

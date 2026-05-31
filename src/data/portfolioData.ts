@@ -381,6 +381,7 @@ export const socials = [
     label: "Email",
     href: "mailto:ivy770707@qq.com",
     icon: "email",
+    copyText: "ivy770707@qq.com",
   },
   {
     label: "WeChat",
