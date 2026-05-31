@@ -29,15 +29,23 @@ function AccountBadges({ links, color }: { links: AccountLink[]; color: string }
 
 function VideoCard({ video }: { video: ShowcaseVideo; color: string }) {
   const [playing, setPlaying] = useState(false);
+  const [muted, setMuted] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const handlePlay = () => { videoRef.current?.play(); setPlaying(true); };
   const handlePause = () => { videoRef.current?.pause(); setPlaying(false); };
+  const toggleMute = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (videoRef.current) {
+      videoRef.current.muted = !videoRef.current.muted;
+      setMuted(videoRef.current.muted);
+    }
+  };
 
   return (
     <div>
       <div className="relative rounded-xl overflow-hidden bg-black/5 border border-border group/video">
-        <video ref={videoRef} src={video.src} muted loop playsInline preload="metadata"
+        <video ref={videoRef} src={video.src} muted={muted} loop playsInline preload="metadata" controls={playing}
           className="w-full aspect-[9/16] object-cover cursor-pointer" onClick={handlePause} />
         {!playing && (
           <button onClick={handlePlay}
@@ -58,9 +66,24 @@ function VideoCard({ video }: { video: ShowcaseVideo; color: string }) {
           </button>
         )}
         {playing && (
-          <div onClick={handlePause} className="absolute bottom-3 left-3 flex items-center gap-1.5 bg-black/40 backdrop-blur-sm rounded-full px-3 py-1.5 cursor-pointer">
-            <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-            <span className="text-xs text-white/80 font-medium">播放中</span>
+          <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between">
+            <div onClick={handlePause} className="flex items-center gap-1.5 bg-black/40 backdrop-blur-sm rounded-full px-3 py-1.5 cursor-pointer">
+              <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+              <span className="text-xs text-white/80 font-medium">播放中</span>
+            </div>
+            <button onClick={toggleMute} className="flex items-center justify-center w-8 h-8 rounded-full bg-black/40 backdrop-blur-sm text-white/80 hover:bg-black/60 hover:text-white transition-all cursor-pointer">
+              {muted ? (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                  <line x1="23" y1="9" x2="17" y2="15" /><line x1="17" y1="9" x2="23" y2="15" />
+                </svg>
+              ) : (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                  <path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07" />
+                </svg>
+              )}
+            </button>
           </div>
         )}
       </div>
@@ -160,10 +183,18 @@ function ExternalLinks({ links, color }: { links: ExternalLink[]; color: string 
 
 function XhsBlock({ xhs, color }: { xhs: XhsSection; color: string }) {
   const [playing, setPlaying] = useState(false);
+  const [muted, setMuted] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const handlePlay = () => { videoRef.current?.play(); setPlaying(true); };
   const handlePause = () => { videoRef.current?.pause(); setPlaying(false); };
+  const toggleMute = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (videoRef.current) {
+      videoRef.current.muted = !videoRef.current.muted;
+      setMuted(videoRef.current.muted);
+    }
+  };
 
   return (
     <div className="space-y-3">
@@ -176,7 +207,7 @@ function XhsBlock({ xhs, color }: { xhs: XhsSection; color: string }) {
         </svg>
       </a>
       <div className="relative rounded-xl overflow-hidden bg-black/5 border border-border group/video max-w-sm">
-        <video ref={videoRef} src={xhs.video.src} muted loop playsInline preload="metadata"
+        <video ref={videoRef} src={xhs.video.src} muted={muted} loop playsInline preload="metadata" controls={playing}
           className="w-full aspect-[9/16] object-cover cursor-pointer" onClick={handlePause} />
         {!playing && (
           <button onClick={handlePlay}
@@ -195,9 +226,24 @@ function XhsBlock({ xhs, color }: { xhs: XhsSection; color: string }) {
           </button>
         )}
         {playing && (
-          <div onClick={handlePause} className="absolute bottom-3 left-3 flex items-center gap-1.5 bg-black/40 backdrop-blur-sm rounded-full px-3 py-1.5 cursor-pointer">
-            <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-            <span className="text-xs text-white/80 font-medium">播放中</span>
+          <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between">
+            <div onClick={handlePause} className="flex items-center gap-1.5 bg-black/40 backdrop-blur-sm rounded-full px-3 py-1.5 cursor-pointer">
+              <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+              <span className="text-xs text-white/80 font-medium">播放中</span>
+            </div>
+            <button onClick={toggleMute} className="flex items-center justify-center w-8 h-8 rounded-full bg-black/40 backdrop-blur-sm text-white/80 hover:bg-black/60 hover:text-white transition-all cursor-pointer">
+              {muted ? (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                  <line x1="23" y1="9" x2="17" y2="15" /><line x1="17" y1="9" x2="23" y2="15" />
+                </svg>
+              ) : (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                  <path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07" />
+                </svg>
+              )}
+            </button>
           </div>
         )}
       </div>

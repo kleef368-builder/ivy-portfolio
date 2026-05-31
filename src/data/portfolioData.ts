@@ -342,7 +342,7 @@ export const experiences: ExperienceEntry[] = [
     ],
     highlights: [
       { label: "2周涨粉", value: "5,000+" },
-      { label: "单条播放量", value: "10 万+" },
+      { label: "单条播放量", value: "500万+" },
       { label: "单月销售额增长", value: "30%" },
     ],
   },
