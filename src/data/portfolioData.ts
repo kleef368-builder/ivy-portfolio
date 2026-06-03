@@ -155,7 +155,7 @@ export const experiences: ExperienceEntry[] = [
       {
         title: "爆款成绩",
         bullets: [
-          "抖音总播放量 1957.4万+",
+          "抖音总播放量 4000万+",
           "单条爆款视频于4月登上「影石产品看后搜」全网第一名，直接带动销售额",
           "Ins 单条视频点赞超 100万",
         ],
@@ -175,7 +175,7 @@ export const experiences: ExperienceEntry[] = [
       },
     ],
     highlights: [
-      { label: "抖音总播放量", value: "1,957.4万+" },
+      { label: "抖音总播放量", value: "4,000万+" },
       { label: "抖音点赞", value: "68.5 万+" },
       { label: "Instagram 单条点赞超", value: "100w" },
     ],
