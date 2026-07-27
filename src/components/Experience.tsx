@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { experiences } from "@/data/portfolioData";
 import type { AccountLink, ShowcaseVideo, SocialHandle, ViralVideo, ExternalLink, XhsSection, ExperienceDocument } from "@/data/portfolioData";
 
@@ -253,6 +253,24 @@ function XhsBlock({ xhs, color }: { xhs: XhsSection; color: string }) {
 
 function PdfModal({ docs, color }: { docs: ExperienceDocument[]; color: string }) {
   const [activeDoc, setActiveDoc] = useState<ExperienceDocument | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  const handleDocClick = (doc: ExperienceDocument) => {
+    if (isMobile) {
+      // 移动端：直接在新标签页打开，调用手机浏览器原生 PDF 渲染器
+      window.open(doc.path, "_blank");
+    } else {
+      // 桌面端：弹出模态弹窗预览
+      setActiveDoc(doc);
+    }
+  };
 
   return (
     <>
@@ -260,7 +278,7 @@ function PdfModal({ docs, color }: { docs: ExperienceDocument[]; color: string }
         {docs.map((doc) => (
           <button
             key={doc.path}
-            onClick={() => setActiveDoc(doc)}
+            onClick={() => handleDocClick(doc)}
             className="group flex flex-col items-start gap-1 px-5 py-4 rounded-xl border border-border-accent bg-white hover:shadow-md hover:border-accent active:scale-[0.98] transition-all duration-200 cursor-pointer text-left"
           >
             <div className="flex items-center gap-2">
@@ -292,16 +310,29 @@ function PdfModal({ docs, color }: { docs: ExperienceDocument[]; color: string }
               onClick={(e) => e.stopPropagation()}
               className="relative w-full max-w-5xl h-[90vh] bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col"
             >
-              <div className="flex items-center justify-between px-5 py-3 border-b border-border shrink-0">
-                <span className="text-sm font-semibold truncate pr-4">{activeDoc.label}</span>
-                <button
-                  onClick={() => setActiveDoc(null)}
-                  className="shrink-0 w-8 h-8 rounded-full bg-accent-light flex items-center justify-center text-accent hover:bg-accent hover:text-white transition-colors cursor-pointer"
-                >
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                    <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
-                  </svg>
-                </button>
+              <div className="flex items-center justify-between gap-2 px-4 sm:px-5 py-3 border-b border-border shrink-0">
+                <span className="text-sm font-semibold truncate">{activeDoc.label}</span>
+                <div className="flex items-center gap-2 shrink-0">
+                  {/* 备用兜底按钮：在任何设备上都能新窗口全屏打开 PDF */}
+                  <a
+                    href={activeDoc.path}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-full bg-accent-light text-accent text-xs font-medium hover:bg-accent hover:text-white transition-colors whitespace-nowrap"
+                  >
+                    <span className="text-sm shrink-0">📱</span>
+                    <span className="hidden sm:inline">手机端全屏打开 PDF</span>
+                    <span className="sm:hidden">全屏打开</span>
+                  </a>
+                  <button
+                    onClick={() => setActiveDoc(null)}
+                    className="shrink-0 w-8 h-8 rounded-full bg-accent-light flex items-center justify-center text-accent hover:bg-accent hover:text-white transition-colors cursor-pointer"
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                      <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                  </button>
+                </div>
               </div>
               <iframe src={activeDoc.path} className="w-full flex-1" title={activeDoc.label} />
             </motion.div>
